@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PhoneCall, PhoneOff, Calendar, UserCheck, Activity, Volume2, VolumeX } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { PhoneCall, PhoneOff, Calendar, UserCheck, Activity, Volume2, VolumeX, Send, Users, ArrowLeft } from 'lucide-react';
 import { speakLine, stopSpeaking, isTTSSupported } from '../../utils/voice';
 
 // Stable module-level script (never recreated on render — keeps the speak effect firing once per line)
@@ -13,11 +14,58 @@ const DIALOGUE = [
   { speaker: 'PRYONX AI', text: 'Done! I have confirmed your appointment for tomorrow at 10:00 AM and logged all details into your CRM.', delay: 10500 },
 ];
 
+// Click-to-hear Q&A — same rule as PRYONX Bot: bot speaks, CTAs navigate in-app
+const VOICE_QUESTIONS: { id: string; question: string; answer: string; cta: 'contact' | 'team' }[] = [
+  {
+    id: 'what-can-you-do',
+    question: 'What can you do on a call?',
+    answer:
+      'I answer customer calls, reply to service questions, qualify leads, book appointments, and route important conversations to your team — every time the phone rings.',
+    cta: 'contact',
+  },
+  {
+    id: 'after-hours',
+    question: 'Do you work after hours?',
+    answer:
+      'Yes. Unlike a front desk, I do not sleep — nights, weekends, and holidays included, no call is left unanswered.',
+    cta: 'contact',
+  },
+  {
+    id: 'integrations',
+    question: 'Which systems can you connect to?',
+    answer:
+      'CRMs like HubSpot and Salesforce, Google Calendar, and any custom API. PRYONX designs the integration around your existing stack.',
+    cta: 'contact',
+  },
+  {
+    id: 'languages',
+    question: 'Which languages do you speak?',
+    answer:
+      'English and Hindi today, and more languages can be added when your solution is custom-built for your business.',
+    cta: 'contact',
+  },
+  {
+    id: 'human-handoff',
+    question: 'What if a caller wants a human?',
+    answer:
+      'I hand over gracefully — capturing the details first and routing the call to the right person, so nothing is lost in the transfer.',
+    cta: 'team',
+  },
+];
+
 export function VoiceAgentSimulator() {
+  const navigate = useNavigate();
   const [isCalling, setIsCalling] = useState(false);
   const [callDuration, setCallDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(!isTTSSupported());
   const [transcriptIndex, setTranscriptIndex] = useState(0);
+  const [qaMessages, setQaMessages] = useState<{ id: number; speaker: 'You' | 'PRYONX AI'; text: string }[]>([]);
+  const [questionChips, setQuestionChips] = useState(true);
+  const [thinking, setThinking] = useState(false);
+  const [lastCta, setLastCta] = useState<'contact' | 'team' | null>(null);
+  const nextQaId = useRef(1);
+  const qaTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const lastSpokenRef = useRef<number>(-1);
 
   useEffect(() => {
@@ -54,9 +102,55 @@ export function VoiceAgentSimulator() {
     }
   }, [isCalling, transcriptIndex, isMuted]);
 
+  // Keep Q&A transcript scrolled to the newest line
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
+  }, [qaMessages, thinking]);
+
+  const clearQaTimers = () => {
+    qaTimers.current.forEach(clearTimeout);
+    qaTimers.current = [];
+  };
+
+  const resetQa = () => {
+    clearQaTimers();
+    setQaMessages([]);
+    setQuestionChips(true);
+    setThinking(false);
+    setLastCta(null);
+  };
+
+  const handleVoiceQuestion = (q: (typeof VOICE_QUESTIONS)[number]) => {
+    clearQaTimers();
+    setQuestionChips(false);
+    setLastCta(null);
+    setQaMessages((prev) => [...prev, { id: nextQaId.current++, speaker: 'You', text: q.question }]);
+    setThinking(true);
+    qaTimers.current.push(
+      setTimeout(() => {
+        setThinking(false);
+        setQaMessages((prev) => [...prev, { id: nextQaId.current++, speaker: 'PRYONX AI', text: q.answer }]);
+        setLastCta(q.cta);
+        if (!isMuted) speakLine(q.answer);
+      }, 700)
+    );
+  };
+
+  const backToQuestions = () => {
+    clearQaTimers();
+    setLastCta(null);
+    setQuestionChips(true);
+  };
+
+  // Same rule as PRYONX Bot: CTA chips navigate inside the site
+  const handleQaCta = (kind: 'contact' | 'team') => {
+    stopSpeaking();
+    navigate(kind === 'contact' ? '/contact' : '/team');
+  };
 
   const toggleCall = () => {
-    if (isCalling) stopSpeaking();
+    stopSpeaking();
+    if (isCalling) resetQa();
     setIsCalling(!isCalling);
   };
 
@@ -84,8 +178,11 @@ export function VoiceAgentSimulator() {
               PRYONX AI Voice Simulator
             </h3>
             <p className="text-xs text-gray-400 font-mono">
-              {isCalling ? `LIVE CALL ACTIVE (${formatTime(callDuration)})` : 'READY FOR SIMULATION'}
-              {isCalling && !isMuted && ' · 🔊 SPEAKING'}
+              {isCalling
+                ? `LIVE CALL ACTIVE (${formatTime(callDuration)})${!isMuted ? ' · 🔊 SPEAKING' : ''}`
+                : questionChips || qaMessages.length > 0
+                  ? 'VOICE Q&A · CLICK A QUESTION, I ANSWER ALOUD'
+                  : 'READY — ASK A QUESTION OR HEAR A DEMO CALL'}
             </p>
           </div>
         </div>
@@ -115,18 +212,100 @@ export function VoiceAgentSimulator() {
       {/* Main Interactive Call Screen */}
       <div className="py-6 min-h-[220px] flex flex-col justify-between">
         {!isCalling ? (
-          <div className="text-center py-8 space-y-4">
-            <div className="w-16 h-16 bg-pryonx-red/10 border border-pryonx-red/30 rounded-full flex items-center justify-center mx-auto text-pryonx-red shadow-lg shadow-pryonx-red/20 animate-pulse">
-              <Volume2 size={32} />
+          <div className="space-y-4">
+            {/* Q&A transcript (mirrors the call transcript styling) */}
+            <div ref={scrollRef} className="space-y-3 max-h-[180px] overflow-y-auto pr-2 custom-scrollbar">
+              {qaMessages.length === 0 ? (
+                <div className="text-center py-6 space-y-4">
+                  <div className="w-16 h-16 bg-pryonx-red/10 border border-pryonx-red/30 rounded-full flex items-center justify-center mx-auto text-pryonx-red shadow-lg shadow-pryonx-red/20 animate-pulse">
+                    <Volume2 size={32} />
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold text-base">Ask the Voice Agent — Hear It Answer</p>
+                    <p className="text-gray-400 text-sm max-w-sm mx-auto mt-1">
+                      Pick a question below and the agent answers out loud using your own
+                      browser's voice — nothing is recorded or sent anywhere. Or press the red
+                      button to hear a full demo call.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <AnimatePresence initial={false}>
+                  {qaMessages.map((msg) => (
+                    <motion.div
+                      key={msg.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className={`flex ${msg.speaker === 'You' ? 'justify-end' : 'justify-start'}`}
+                    >
+                      <div
+                        className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs md:text-sm font-medium ${
+                          msg.speaker === 'You'
+                            ? 'bg-gray-800 text-gray-200 rounded-br-none border border-gray-700'
+                            : 'bg-gradient-to-r from-pryonx-cyan/20 to-pryonx-blue/30 text-white rounded-bl-none border border-pryonx-cyan/40 shadow-lg shadow-pryonx-cyan/10'
+                        }`}
+                      >
+                        <span className="text-[10px] block font-mono text-gray-400 mb-0.5 uppercase tracking-wider">
+                          {msg.speaker}
+                        </span>
+                        {msg.text}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              )}
+
+              {thinking && (
+                <div className="flex justify-start">
+                  <div className="bg-gray-800/60 border border-gray-700 rounded-2xl rounded-bl-none px-4 py-3 flex items-center space-x-1.5">
+                    {[0, 1, 2].map((i) => (
+                      <motion.span
+                        key={i}
+                        className="w-1.5 h-1.5 rounded-full bg-pryonx-cyan"
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.15 }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-            <div>
-              <p className="text-white font-semibold text-base">Test the AI Voice Agent Experience</p>
-              <p className="text-gray-400 text-sm max-w-sm mx-auto mt-1">
-                Click below to simulate how PRYONX AI handles real customer phone calls in real
-                time. The agent's replies are spoken aloud using your own browser's voice —
-                nothing is recorded or sent anywhere.
-              </p>
-            </div>
+
+            {/* Question chips */}
+            {questionChips && (
+              <div className="flex flex-wrap gap-2 pt-1">
+                {VOICE_QUESTIONS.map((q) => (
+                  <button
+                    key={q.id}
+                    onClick={() => handleVoiceQuestion(q)}
+                    className="px-3 py-1.5 text-xs rounded-full bg-pryonx-dark-bg border border-pryonx-cyan/40 text-pryonx-cyan hover:bg-pryonx-cyan hover:text-white transition-colors text-left"
+                  >
+                    {q.question}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Quick actions after a spoken answer — same routing rule as PRYONX Bot */}
+            {lastCta && (
+              <div className="flex flex-wrap gap-2 pt-1">
+                <button
+                  onClick={backToQuestions}
+                  className="inline-flex items-center space-x-1 px-3 py-1.5 text-xs rounded-full bg-pryonx-dark-bg border border-gray-700 text-gray-300 hover:border-pryonx-cyan hover:text-pryonx-cyan transition-colors"
+                >
+                  <ArrowLeft size={12} />
+                  <span>Next question</span>
+                </button>
+                <button
+                  onClick={() => handleQaCta(lastCta)}
+                  className="inline-flex items-center space-x-1 px-3 py-1.5 text-xs rounded-full bg-pryonx-red text-white hover:bg-red-500 transition-colors"
+                >
+                  {lastCta === 'team' ? <Users size={12} /> : <Send size={12} />}
+                  <span>{lastCta === 'team' ? 'Contact the team' : 'Start a project'}</span>
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="space-y-4">
@@ -175,7 +354,7 @@ export function VoiceAgentSimulator() {
                 </div>
                 <div className="bg-purple-950/40 border border-purple-500/40 rounded-lg p-2 flex items-center space-x-2 text-purple-400 text-xs font-mono col-span-2 sm:col-span-1">
                   <Activity size={14} />
-                  <span>Latency: 160ms</span>
+                  <span>Voice: Browser Demo</span>
                 </div>
               </motion.div>
             )}
@@ -191,13 +370,13 @@ export function VoiceAgentSimulator() {
               setIsMuted(!isMuted);
               if (!isMuted) stopSpeaking();
             }}
-            disabled={!isCalling || !isTTSSupported()}
+            disabled={!isTTSSupported()}
             className={`p-3 rounded-full border transition-all ${
               isMuted
                 ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
                 : 'bg-gray-800 border-gray-700 text-gray-300 hover:text-white'
-            } ${!isCalling || !isTTSSupported() ? 'opacity-50 cursor-not-allowed' : ''}`}
-            title={isMuted ? ' unmute — agent speaks answers' : 'Mute agent voice'}
+            } ${!isTTSSupported() ? 'opacity-50 cursor-not-allowed' : ''}`}
+            title={isMuted ? 'Unmute — agent speaks answers' : 'Mute agent voice'}
             aria-label={isMuted ? 'Unmute agent voice' : 'Mute agent voice'}
           >
             {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
