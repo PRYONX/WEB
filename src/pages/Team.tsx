@@ -149,9 +149,12 @@ export function Team() {
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               Work Directly With Our Founder
             </h2>
-            <p className="text-gray-300 text-lg mb-8">
+            <p className="text-gray-300 text-lg mb-3">
               At PRYONX, you don't get handed off between account managers. You work directly with
               the engineer leading your AI project from discovery to deployment.
+            </p>
+            <p className="text-pryonx-cyan font-mono text-sm uppercase tracking-widest mb-8">
+              PRYONX is now forming its founding-client cohort.
             </p>
             <Button href={siteData.googleFormUrl} size="lg">
               Start Your AI Project

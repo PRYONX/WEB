@@ -64,7 +64,9 @@ export function Contact() {
               <Card>
                 <h2 className="text-2xl font-bold text-white mb-4">Start Your Project</h2>
                 <p className="text-gray-400 mb-8">
-                  Ready to build something intelligent? Fill out our project form and our AI architecture team will get back to you within 24 hours.
+                  Ready to build something intelligent? Tell us about your business problem —
+                  every request is reviewed personally by our founder, and you'll hear back
+                  directly from the engineer who would lead your project.
                 </p>
                 <Button href={siteData.googleFormUrl} size="lg" className="w-full">
                   Start Your AI Project

@@ -132,10 +132,16 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-gray-800">
-          <p className="text-center text-gray-500 text-sm">
+        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-gray-500 text-sm">
             © 2026 PRYONX. All rights reserved.
           </p>
+          <Link
+            to="/privacy-policy"
+            className="text-gray-500 hover:text-pryonx-cyan transition-colors text-sm"
+          >
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>

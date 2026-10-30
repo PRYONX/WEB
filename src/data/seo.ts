@@ -52,4 +52,10 @@ export const pageSeo: Record<string, PageSeo> = {
       'Talk to PRYONX about your AI project. Reach us by email or phone and share your business problem - we will design the AI solution around it.',
     path: '/contact',
   },
+  '/privacy-policy': {
+    title: 'Privacy Policy | PRYONX',
+    description:
+      'How PRYONX handles your data: what we collect, why we collect it, and your rights under the DPDP Act 2023. Plain language, no fine print.',
+    path: '/privacy-policy',
+  },
 };

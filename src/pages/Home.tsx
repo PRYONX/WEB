@@ -296,14 +296,20 @@ export function Home() {
         </div>
       </section>
 
-      {/* IMPACT STAT METRICS SECTION */}
+      {/* PERFORMANCE TARGETS (BENCHMARKS COMING SOON) */}
       <section className="py-16 bg-pryonx-surface/80 border-y border-gray-800 backdrop-blur-md">
         <div className="container-custom">
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-pryonx-dark-bg/80 border border-pryonx-red/40 text-xs font-mono text-pryonx-red uppercase tracking-wider">
+              <Sparkles size={14} className="text-pryonx-red" />
+              <span>Performance Targets — Live Benchmarks Coming Soon</span>
+            </div>
+          </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { stat: '24/7', label: 'Inbound Availability', detail: 'Zero missed opportunities' },
+              { stat: '24/7', label: 'Always-On (with AI Voice Agents)', detail: 'Zero missed opportunities' },
               { stat: '10x', label: 'Faster Processing Speed', detail: 'Instant automated workflows' },
-              { stat: '99.9%', label: 'System Reliability', detail: 'Enterprise SLA architecture' },
+              { stat: '99.9%', label: 'System Reliability', detail: 'High-availability architecture' },
               { stat: '<180ms', label: 'AI Voice Latency', detail: 'Ultra-fast response feel' },
             ].map((item, idx) => (
               <motion.div
@@ -322,6 +328,10 @@ export function Home() {
               </motion.div>
             ))}
           </div>
+          <p className="text-center text-gray-500 text-sm mt-10 max-w-2xl mx-auto">
+            We're a founding-stage company. These are engineering targets we design toward;
+            verified client benchmarks will be published here as our first projects go live.
+          </p>
         </div>
       </section>
 
@@ -526,6 +536,42 @@ export function Home() {
         </div>
       </section>
 
+      {/* FOUNDING CLIENT PROGRAM */}
+      <section className="py-20 md:py-28 bg-pryonx-surface">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto"
+          >
+            <Card featured>
+              <div className="text-center space-y-4">
+                <p className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-pryonx-dark-bg border border-pryonx-red/50 text-xs font-mono text-pryonx-red uppercase tracking-widest">
+                  <span>Now Forming · Limited Slots</span>
+                </p>
+                <h2 className="text-2xl md:text-4xl font-bold text-white font-space-grotesk">
+                  Founding Client Program
+                </h2>
+                <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                  PRYONX is a founder-led startup taking on its first clients. Every project is
+                  architected and delivered personally by our founder from discovery to deployment
+                  — and we commit to publishing verified case studies and real performance
+                  benchmarks on this page as our first projects go live.
+                </p>
+                <div className="pt-2">
+                  <Button href={siteData.googleFormUrl} size="lg">
+                    Apply Your Business Problem
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
       {/* TECHNOLOGY ECOSYSTEM */}
       <section className="py-20 md:py-32 bg-pryonx-surface">
         <div className="container-custom">
@@ -637,14 +683,24 @@ export function Home() {
             <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
               Tell us about your business challenge. Let's explore how AI and automation can help.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button href={siteData.googleFormUrl} size="lg">
                 {siteData.cta.primary}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-              <Button href={siteData.googleFormUrl} variant="outline" size="lg">
-                Talk to PRYONX
-              </Button>
+              <a
+                href={`mailto:${siteData.contact.email}`}
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg border-2 border-pryonx-cyan text-pryonx-cyan hover:bg-pryonx-cyan hover:text-white transition-all duration-300"
+              >
+                Email PRYONX
+              </a>
+              <span
+                aria-disabled="true"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold rounded-lg border border-gray-700 text-gray-500 opacity-60 cursor-not-allowed select-none"
+                title="Live consultation booking is not open yet"
+              >
+                📞 Live Consultation — Coming Soon
+              </span>
             </div>
           </motion.div>
         </div>

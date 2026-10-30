@@ -152,6 +152,12 @@ export function RoiCalculator() {
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </div>
+
+          <p className="text-[11px] text-gray-500 leading-relaxed">
+            Estimates only — illustrative calculator based on generic assumptions (75% task
+            automation, $45/hr average wage). Your actual results will be assessed on your real
+            workflows, not these numbers.
+          </p>
         </div>
       </div>
     </div>

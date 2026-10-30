@@ -11,6 +11,7 @@ import { HowWeWork } from './pages/HowWeWork';
 import { About } from './pages/About';
 import { Team } from './pages/Team';
 import { Contact } from './pages/Contact';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -58,6 +59,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
         </main>
         <Footer />

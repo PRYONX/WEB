@@ -255,7 +255,7 @@ export function HowWeWork() {
                   <div>
                     <h3 className="text-lg font-bold text-white mb-2">Long-Term Partnership</h3>
                     <p className="text-gray-400 text-sm">
-                      We don't just build and leave. We establish ongoing relationships to ensure your solutions continue to deliver value as your business evolves.
+                      We aim to stay with your solution beyond launch — monitoring, refining, and improving as your business evolves. Ongoing support &amp; maintenance plans are coming soon; today every project ships with hands-on founder-level go-live support.
                     </p>
                   </div>
                 </div>
