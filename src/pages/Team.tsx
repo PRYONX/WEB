@@ -100,9 +100,6 @@ export function Team() {
                     {member.name}
                   </h2>
                   <p className="text-gray-300 mt-2 text-lg">{member.headline}</p>
-                  <p className="text-gray-500 mt-1 text-sm">
-                    Also known as: {member.alternateNames.join(' · ')}
-                  </p>
                 </div>
 
                 {member.quote && (
