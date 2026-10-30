@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MessageCircle, X, Send, Mail, ArrowLeft, Bot } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { MessageCircle, X, Send, Mail, ArrowLeft, Bot, Users } from 'lucide-react';
 import { siteData } from '../../data/site-data';
 import { botGreeting, botName, botTopics, BotTopic, BotAnswer } from '../../data/chatbot';
 
-type CtaKind = 'form' | 'email';
+type CtaKind = 'form' | 'email' | 'contact' | 'team';
 
 interface Message {
   id: number;
@@ -15,6 +16,13 @@ interface Message {
   cta?: CtaKind;
 }
 
+const CTA_META: Record<CtaKind, { label: string }> = {
+  form: { label: 'Project form' },
+  email: { label: 'Email us' },
+  contact: { label: 'Start a project' },
+  team: { label: 'Contact the team' },
+};
+
 const REDUCED_MOTION =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -22,6 +30,7 @@ const REDUCED_MOTION =
 const LAUNCHER_HINT_DURATION_MS = 6000;
 
 export function PryonxBot() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [typing, setTyping] = useState(false);
@@ -31,13 +40,19 @@ export function PryonxBot() {
   const panelRef = useRef<HTMLDivElement>(null);
   const typingTimer = useRef<ReturnType<typeof setTimeout>>();
 
-  const ctaHref = useMemo(
-    () => ({
-      form: siteData.googleFormUrl,
-      email: `mailto:${siteData.contact.email}`,
-    }),
-    []
-  );
+  // 'contact' and 'team' navigate inside the site; form/email leave the page
+  const handleCta = (kind: CtaKind) => {
+    if (kind === 'contact' || kind === 'team') {
+      setOpen(false);
+      navigate(kind === 'contact' ? '/contact' : '/team');
+      return;
+    }
+    if (kind === 'email') {
+      window.location.href = `mailto:${siteData.contact.email}`;
+      return;
+    }
+    window.open(siteData.googleFormUrl, '_blank', 'noopener,noreferrer');
+  };
 
   const pushMessage = (msg: Omit<Message, 'id'>) => {
     setMessages((prev) => [...prev, { ...msg, id: nextId.current++ }]);
@@ -228,15 +243,19 @@ export function PryonxBot() {
                         <span>Back to topics</span>
                       </button>
                       {msg.cta && (
-                        <a
-                          href={ctaHref[msg.cta]}
-                          target={msg.cta === 'form' ? '_blank' : undefined}
-                          rel={msg.cta === 'form' ? 'noopener noreferrer' : undefined}
+                        <button
+                          onClick={() => handleCta(msg.cta as CtaKind)}
                           className="inline-flex items-center space-x-1 px-3 py-1.5 text-xs rounded-full bg-pryonx-red text-white hover:bg-red-500 transition-colors"
                         >
-                          {msg.cta === 'email' ? <Mail size={12} /> : <Send size={12} />}
-                          <span>{msg.cta === 'email' ? 'Email us' : 'Start a project'}</span>
-                        </a>
+                          {msg.cta === 'email' ? (
+                            <Mail size={12} />
+                          ) : msg.cta === 'team' ? (
+                            <Users size={12} />
+                          ) : (
+                            <Send size={12} />
+                          )}
+                          <span>{CTA_META[msg.cta].label}</span>
+                        </button>
                       )}
                     </div>
                   )}

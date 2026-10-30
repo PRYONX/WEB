@@ -12,7 +12,7 @@ export interface BotAnswer {
   id: string;
   question: string;
   answer: string;
-  ctaHref?: 'form' | 'email';
+  ctaHref?: 'form' | 'email' | 'contact' | 'team';
 }
 
 export interface BotTopic {
@@ -38,28 +38,28 @@ export const botTopics: BotTopic[] = [
         question: 'What services does PRYONX offer?',
         answer:
           'Four core services: AI Automation (workflows, documents, data processing), Custom AI Solutions (ML models, dashboards, recommendation systems), AI Product Development (AI SaaS, copilots, internal platforms), and AI Voice Agents (calls, support, lead qualification).',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
       {
         id: 'voice-agents',
         question: 'What can an AI Voice Agent do?',
         answer:
           'Our voice agents answer customer calls, respond naturally to questions, qualify leads, book appointments, collect information, and route important conversations — so your phone calls are never left unanswered.',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
       {
         id: 'custom-ai',
         question: 'Do you build custom AI for my specific problem?',
         answer:
           'Yes — that is the whole point of PRYONX. We design each system around your specific business requirements instead of forcing a one-size-fits-all template.',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
       {
         id: 'ai-products',
         question: 'Can you build a complete AI product from my idea?',
         answer:
           'Yes. We take AI products from concept to production — design, AI integration, scalable architecture, and deployment.',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
     ],
   },
@@ -104,14 +104,14 @@ export const botTopics: BotTopic[] = [
         question: 'How much does a project cost?',
         answer:
           'Every solution is custom-scoped, so pricing depends entirely on your problem and requirements. Share your business problem through the project form and you will get a scope-based quote.',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
       {
         id: 'free-consult',
         question: 'Is the first consultation free?',
         answer:
           'Yes. Submitting your project request and the initial assessment are completely free and without obligation — you get clarity on whether AI is even the right answer for you.',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
       {
         id: 'packages',
@@ -143,7 +143,7 @@ export const botTopics: BotTopic[] = [
         question: 'Are you an established company?',
         answer:
           'Honestly: PRYONX is a founding-stage, founder-led startup. We are now forming our Founding Client Program — the first projects will ship with senior founder-level attention, and we will publish verified case studies and benchmarks as they go live.',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
     ],
   },
@@ -157,14 +157,14 @@ export const botTopics: BotTopic[] = [
         question: 'How do I start?',
         answer:
           'Fill out the project intake form — describe your business problem in your own words. No technical details needed; figuring out the technology is our job.',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
       {
         id: 'after-submit',
         question: 'What happens after I submit the form?',
         answer:
           'Every request is reviewed personally by our founder. You hear back directly from the engineer who would lead your project — not a sales queue.',
-        ctaHref: 'form',
+        ctaHref: 'contact',
       },
       {
         id: 'what-to-prepare',
@@ -177,7 +177,7 @@ export const botTopics: BotTopic[] = [
         question: 'How else can I contact you?',
         answer:
           'Email info@pryonx.in (main), support.pryonx@gmail.com (support), or call +91 7683886320 / +91 7815099648.',
-        ctaHref: 'email',
+        ctaHref: 'team',
       },
     ],
   },
