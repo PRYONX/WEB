@@ -14,6 +14,13 @@ const DIALOGUE = [
   { speaker: 'PRYONX AI', text: 'It is custom-built around your workflow — phone line, calendars, and CRM included, if you need them. Head over to the contact page and tell us your business problem. That is how a founding client setup starts.', delay: 10500 },
 ];
 
+// Rough spoken-length estimate (ms) so pacing feels natural even when muted or
+// as a safety net when a browser fails to fire the utterance 'end' event.
+const estimateSpeechMs = (text: string) => {
+  const words = text.trim().split(/\s+/).length;
+  return Math.max(1400, words * 420 + 400);
+};
+
 // Click-to-hear Q&A — same rule as PRYONX Bot: bot speaks, CTAs navigate in-app
 const VOICE_QUESTIONS: { id: string; question: string; answer: string; cta: 'contact' | 'team' }[] = [
   {
@@ -65,6 +72,7 @@ export function VoiceAgentSimulator() {
   const [isCalling, setIsCalling] = useState(false);
   const [callDuration, setCallDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(!isTTSSupported());
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [transcriptIndex, setTranscriptIndex] = useState(0);
   const [qaMessages, setQaMessages] = useState<{ id: number; speaker: 'You' | 'PRYONX AI'; text: string }[]>([]);
   const [questionChips, setQuestionChips] = useState(true);
@@ -74,6 +82,8 @@ export function VoiceAgentSimulator() {
   const qaTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastSpokenRef = useRef<number>(-1);
+  const speakingIdxRef = useRef<number>(-1);
+  const speakingStartRef = useRef<number>(0);
 
   useEffect(() => {
     let timer: ReturnType<typeof setInterval>;
@@ -84,30 +94,84 @@ export function VoiceAgentSimulator() {
     } else {
       setCallDuration(0);
       setTranscriptIndex(0);
+      setIsSpeaking(false);
       lastSpokenRef.current = -1;
+      speakingIdxRef.current = -1;
     }
     return () => clearInterval(timer);
   }, [isCalling]);
 
-  useEffect(() => {
-    let scriptTimer: ReturnType<typeof setTimeout>;
-    if (isCalling && transcriptIndex < DIALOGUE.length - 1) {
-      scriptTimer = setTimeout(() => {
-        setTranscriptIndex((prev) => prev + 1);
-      }, 2500);
-    }
-    return () => clearTimeout(scriptTimer);
-  }, [isCalling, transcriptIndex]);
-
-  // Speak each PRYONX AI line exactly once as it appears (browser-local text-to-speech)
+  // Pace the scripted call to the voice: a line advances ONLY after the agent
+  // finishes speaking it, so a long answer is never cut off by the next one.
   useEffect(() => {
     if (!isCalling) return;
     const msg = DIALOGUE[transcriptIndex];
-    if (msg && msg.speaker === 'PRYONX AI' && !isMuted && lastSpokenRef.current !== transcriptIndex) {
-      lastSpokenRef.current = transcriptIndex;
-      speakLine(msg.text);
+    if (!msg) return;
+    const isLast = transcriptIndex >= DIALOGUE.length - 1;
+
+    let done = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const advance = () => {
+      if (done || isLast) return;
+      done = true;
+      setIsSpeaking(false);
+      if (timer) clearTimeout(timer);
+      setTranscriptIndex((i) => Math.min(i + 1, DIALOGUE.length - 1));
+    };
+
+    const aiLine = msg.speaker === 'PRYONX AI';
+    if (aiLine && !isMuted) {
+      const alreadySpeaking = speakingIdxRef.current === transcriptIndex;
+      if (!alreadySpeaking && lastSpokenRef.current !== transcriptIndex) {
+        lastSpokenRef.current = transcriptIndex;
+        speakingIdxRef.current = transcriptIndex;
+        speakingStartRef.current = Date.now();
+        setIsSpeaking(true);
+        speakLine(msg.text, {
+          onEnd: () => {
+            // If this line was superseded (e.g. muted mid-utterance), don't advance
+            if (speakingIdxRef.current !== transcriptIndex) return;
+            speakingIdxRef.current = -1;
+            setIsSpeaking(false);
+            advance();
+          },
+        });
+        // Safety net: if the 'end' event never fires, move on anyway
+        timer = setTimeout(advance, estimateSpeechMs(msg.text) + 5000);
+      }
+      // else: this line is already speaking (e.g. StrictMode re-run) — let onEnd advance
+    } else if (aiLine) {
+      // Muted: hold the line long enough to read
+      timer = setTimeout(advance, Math.min(estimateSpeechMs(msg.text), 4200));
+    } else {
+      // Caller line (never spoken): short readable pause
+      timer = setTimeout(advance, 1900);
     }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [isCalling, transcriptIndex, isMuted]);
+
+  // Watchdog: some browsers/background tabs never fire an utterance's 'end' event.
+  // If the voice engine reports it is no longer speaking, finish the line anyway so
+  // the transcript and the SPEAKING indicator can't get stuck.
+  useEffect(() => {
+    if (!isCalling || isMuted) return;
+    const id = setInterval(() => {
+      if (speakingIdxRef.current === -1 || !isSpeaking) return;
+      const synth = window.speechSynthesis;
+      // grace period so we don't cut off the startup gap before speech begins
+      if (Date.now() - speakingStartRef.current < 2500) return;
+      if (!synth.speaking && !synth.pending) {
+        const idx = speakingIdxRef.current;
+        speakingIdxRef.current = -1;
+        setIsSpeaking(false);
+        setTranscriptIndex((i) => Math.max(i, Math.min(idx + 1, DIALOGUE.length - 1)));
+      }
+    }, 800);
+    return () => clearInterval(id);
+  }, [isCalling, isMuted, isSpeaking]);
 
   // Keep Q&A transcript scrolled to the newest line
   useEffect(() => {
@@ -190,7 +254,7 @@ export function VoiceAgentSimulator() {
             <p className="text-xs text-gray-400 font-mono">
               {isCalling
                 ? `LIVE DEMO CALL (${formatTime(callDuration)})${
-                    !isMuted && transcriptIndex >= 1 ? ' · 🔊 SPEAKING' : ''
+                    isSpeaking ? ' · 🔊 SPEAKING' : ''
                   }`
                 : questionChips || qaMessages.length > 0
                   ? 'VOICE Q&A · CLICK A QUESTION, I ANSWER ALOUD'
@@ -407,7 +471,12 @@ export function VoiceAgentSimulator() {
           <button
             onClick={() => {
               setIsMuted(!isMuted);
-              if (!isMuted) stopSpeaking();
+              if (!isMuted) {
+                // muting now: stop audio and cancel the pending advance for this line
+                stopSpeaking();
+                speakingIdxRef.current = -1;
+                setIsSpeaking(false);
+              }
             }}
             disabled={!isTTSSupported()}
             className={`p-3 rounded-full border transition-all ${

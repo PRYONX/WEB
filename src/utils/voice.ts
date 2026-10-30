@@ -48,9 +48,19 @@ export function toSpeakableText(text: string): string {
   return emojiStrip(text).replace(/PRYONX/gi, 'Pry-onks');
 }
 
-/** Speak a line. Cancels anything currently speaking. Safe no-op if unsupported. */
-export function speakLine(text: string, opts?: { rate?: number; pitch?: number }): void {
-  if (!isTTSSupported()) return;
+/**
+ * Speak a line. Cancels anything currently speaking. Safe no-op if unsupported.
+ * Pass `onEnd` to be notified when the utterance finishes (used to pace the
+ * simulator so the next line never starts on top of the current one).
+ */
+export function speakLine(
+  text: string,
+  opts?: { rate?: number; pitch?: number; onEnd?: () => void }
+): void {
+  if (!isTTSSupported()) {
+    opts?.onEnd?.();
+    return;
+  }
 
   const synth = window.speechSynthesis;
   synth.cancel();
@@ -61,6 +71,12 @@ export function speakLine(text: string, opts?: { rate?: number; pitch?: number }
   utterance.lang = voice?.lang || 'en-IN';
   utterance.rate = opts?.rate ?? 1.02;   // slightly brisk, agent-like
   utterance.pitch = opts?.pitch ?? 1.15; // a touch higher for a warmer, feminine tone
+
+  if (opts?.onEnd) {
+    const done = opts.onEnd;
+    utterance.onend = () => done();
+    utterance.onerror = () => done();
+  }
 
   synth.speak(utterance);
 }
