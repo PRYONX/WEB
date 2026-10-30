@@ -137,7 +137,7 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
                 transition={{ delay: 0.7, duration: 0.6 }}
               >
                 <Sparkles size={14} className="animate-spin text-pryonx-red" />
-                <span>AI Automation & Advanced Solutions</span>
+                <span>Your Business Problem. Our AI Solution.</span>
                 <Sparkles size={14} className="animate-spin text-pryonx-cyan" />
               </motion.div>
             </motion.div>
