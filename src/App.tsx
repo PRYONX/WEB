@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Navigation } from './components/layout/Navigation';
 import { Footer } from './components/layout/Footer';
@@ -12,6 +12,9 @@ import { About } from './pages/About';
 import { Team } from './pages/Team';
 import { Contact } from './pages/Contact';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
+
+// Lazy-loaded so the chat widget never blocks first paint (LCP protection)
+const PryonxBot = lazy(() => import('./components/chatbot/PryonxBot'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -63,6 +66,9 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <Suspense fallback={null}>
+          <PryonxBot />
+        </Suspense>
       </div>
     </Router>
   );
