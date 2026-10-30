@@ -20,6 +20,12 @@ export const siteData = {
     profileUrl: 'https://www.pryonx.in/team#debadattaa-jena',
   },
 
+  social: {
+    facebook: 'https://www.facebook.com/pryonx',
+    instagram: 'https://www.instagram.com/pryonx',
+    linkedinCompany: 'https://www.linkedin.com/company/pryonx',
+  },
+
   googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScPAR3Kw95W62u8vshbVdSupdKbXAWUUHYhdLxNFIjVGWMTPg/viewform?usp=publish-editor',
 
   cta: {

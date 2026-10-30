@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Linkedin } from 'lucide-react';
+import { Linkedin, Facebook, Instagram } from 'lucide-react';
 import { siteData } from '../../data/site-data';
 import logo from '../../assets/logo.png';
 
@@ -34,6 +34,35 @@ export function Footer() {
               <Linkedin size={16} />
               <span>Connect on LinkedIn</span>
             </a>
+            <div className="flex items-center space-x-3 pt-1">
+              <a
+                href={siteData.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="PRYONX on Facebook"
+                className="w-9 h-9 rounded-full bg-pryonx-dark-bg border border-gray-700/60 flex items-center justify-center text-gray-400 hover:text-pryonx-cyan hover:border-pryonx-cyan/50 transition-colors"
+              >
+                <Facebook size={16} />
+              </a>
+              <a
+                href={siteData.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="PRYONX on Instagram"
+                className="w-9 h-9 rounded-full bg-pryonx-dark-bg border border-gray-700/60 flex items-center justify-center text-gray-400 hover:text-pryonx-cyan hover:border-pryonx-cyan/50 transition-colors"
+              >
+                <Instagram size={16} />
+              </a>
+              <a
+                href={siteData.social.linkedinCompany}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="PRYONX on LinkedIn"
+                className="w-9 h-9 rounded-full bg-pryonx-dark-bg border border-gray-700/60 flex items-center justify-center text-gray-400 hover:text-pryonx-cyan hover:border-pryonx-cyan/50 transition-colors"
+              >
+                <Linkedin size={16} />
+              </a>
+            </div>
           </div>
 
           {/* Services */}
