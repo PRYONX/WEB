@@ -1,21 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PhoneCall, PhoneOff, Mic, MicOff, Calendar, UserCheck, Activity, Volume2 } from 'lucide-react';
+import { PhoneCall, PhoneOff, Calendar, UserCheck, Activity, Volume2, VolumeX } from 'lucide-react';
+import { speakLine, stopSpeaking, isTTSSupported } from '../../utils/voice';
+
+// Stable module-level script (never recreated on render — keeps the speak effect firing once per line)
+const DIALOGUE = [
+  { speaker: 'Caller', text: 'Hi, I need help answering incoming customer calls and booking appointments after hours.', delay: 1000 },
+  { speaker: 'PRYONX AI', text: 'Hello! I am your PRYONX AI Voice Agent. I can answer calls 24/7, answer service questions, qualify leads, and sync directly with your calendar.', delay: 2500 },
+  { speaker: 'Caller', text: 'That sounds ideal. Can you integrate with Google Calendar and HubSpot CRM?', delay: 4500 },
+  { speaker: 'PRYONX AI', text: 'Absolutely! I integrate seamlessly with HubSpot, Salesforce, Google Calendar, and custom APIs. Shall I schedule your initial project consultation?', delay: 6500 },
+  { speaker: 'Caller', text: 'Yes, please schedule it for tomorrow at 10 AM.', delay: 8500 },
+  { speaker: 'PRYONX AI', text: 'Done! I have confirmed your appointment for tomorrow at 10:00 AM and logged all details into your CRM.', delay: 10500 },
+];
 
 export function VoiceAgentSimulator() {
   const [isCalling, setIsCalling] = useState(false);
   const [callDuration, setCallDuration] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(!isTTSSupported());
   const [transcriptIndex, setTranscriptIndex] = useState(0);
-
-  const dialogue = [
-    { speaker: 'Caller', text: 'Hi, I need help answering incoming customer calls and booking appointments after hours.', delay: 1000 },
-    { speaker: 'PRYONX AI', text: 'Hello! I am your PRYONX AI Voice Agent. I can answer calls 24/7, answer service questions, qualify leads, and sync directly with your calendar.', delay: 2500 },
-    { speaker: 'Caller', text: 'That sounds ideal. Can you integrate with Google Calendar and HubSpot CRM?', delay: 4500 },
-    { speaker: 'PRYONX AI', text: 'Absolutely! I integrate seamlessly with HubSpot, Salesforce, Google Calendar, and custom APIs. Shall I schedule your initial project consultation?', delay: 6500 },
-    { speaker: 'Caller', text: 'Yes, please schedule it for tomorrow at 10 AM.', delay: 8500 },
-    { speaker: 'PRYONX AI', text: 'Done! I have confirmed your appointment for tomorrow at 10:00 AM and logged all details into your CRM.', delay: 10500 },
-  ];
+  const lastSpokenRef = useRef<number>(-1);
 
   useEffect(() => {
     let timer: ReturnType<typeof setInterval>;
@@ -26,22 +29,34 @@ export function VoiceAgentSimulator() {
     } else {
       setCallDuration(0);
       setTranscriptIndex(0);
+      lastSpokenRef.current = -1;
     }
     return () => clearInterval(timer);
   }, [isCalling]);
 
   useEffect(() => {
     let scriptTimer: ReturnType<typeof setTimeout>;
-    if (isCalling && transcriptIndex < dialogue.length - 1) {
+    if (isCalling && transcriptIndex < DIALOGUE.length - 1) {
       scriptTimer = setTimeout(() => {
         setTranscriptIndex((prev) => prev + 1);
       }, 2500);
     }
     return () => clearTimeout(scriptTimer);
-  }, [isCalling, transcriptIndex, dialogue.length]);
+  }, [isCalling, transcriptIndex]);
+
+  // Speak each PRYONX AI line exactly once as it appears (browser-local text-to-speech)
+  useEffect(() => {
+    if (!isCalling) return;
+    const msg = DIALOGUE[transcriptIndex];
+    if (msg && msg.speaker === 'PRYONX AI' && !isMuted && lastSpokenRef.current !== transcriptIndex) {
+      lastSpokenRef.current = transcriptIndex;
+      speakLine(msg.text);
+    }
+  }, [isCalling, transcriptIndex, isMuted]);
 
 
   const toggleCall = () => {
+    if (isCalling) stopSpeaking();
     setIsCalling(!isCalling);
   };
 
@@ -70,6 +85,7 @@ export function VoiceAgentSimulator() {
             </h3>
             <p className="text-xs text-gray-400 font-mono">
               {isCalling ? `LIVE CALL ACTIVE (${formatTime(callDuration)})` : 'READY FOR SIMULATION'}
+              {isCalling && !isMuted && ' · 🔊 SPEAKING'}
             </p>
           </div>
         </div>
@@ -106,7 +122,9 @@ export function VoiceAgentSimulator() {
             <div>
               <p className="text-white font-semibold text-base">Test the AI Voice Agent Experience</p>
               <p className="text-gray-400 text-sm max-w-sm mx-auto mt-1">
-                Click below to simulate how PRYONX AI handles real customer phone calls in real time.
+                Click below to simulate how PRYONX AI handles real customer phone calls in real
+                time. The agent's replies are spoken aloud using your own browser's voice —
+                nothing is recorded or sent anywhere.
               </p>
             </div>
           </div>
@@ -115,7 +133,7 @@ export function VoiceAgentSimulator() {
             {/* Scrollable Dialogue Container */}
             <div className="space-y-3 max-h-[180px] overflow-y-auto pr-2 custom-scrollbar">
               <AnimatePresence initial={false}>
-                {dialogue.slice(0, transcriptIndex + 1).map((msg, index) => (
+                {DIALOGUE.slice(0, transcriptIndex + 1).map((msg, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 10 }}
@@ -169,16 +187,20 @@ export function VoiceAgentSimulator() {
       <div className="flex items-center justify-between pt-4 border-t border-gray-800">
         <div className="flex items-center space-x-3">
           <button
-            onClick={() => setIsMuted(!isMuted)}
-            disabled={!isCalling}
+            onClick={() => {
+              setIsMuted(!isMuted);
+              if (!isMuted) stopSpeaking();
+            }}
+            disabled={!isCalling || !isTTSSupported()}
             className={`p-3 rounded-full border transition-all ${
               isMuted
                 ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
                 : 'bg-gray-800 border-gray-700 text-gray-300 hover:text-white'
-            } ${!isCalling ? 'opacity-50 cursor-not-allowed' : ''}`}
-            title="Mute Call"
+            } ${!isCalling || !isTTSSupported() ? 'opacity-50 cursor-not-allowed' : ''}`}
+            title={isMuted ? ' unmute — agent speaks answers' : 'Mute agent voice'}
+            aria-label={isMuted ? 'Unmute agent voice' : 'Mute agent voice'}
           >
-            {isMuted ? <MicOff size={18} /> : <Mic size={18} />}
+            {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
           </button>
         </div>
 

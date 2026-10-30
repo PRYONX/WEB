@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { MessageCircle, X, Send, Mail, ArrowLeft, Bot, Users } from 'lucide-react';
+import { MessageCircle, X, Send, Mail, ArrowLeft, Bot, Users, Volume2, VolumeX } from 'lucide-react';
 import { siteData } from '../../data/site-data';
 import { botGreeting, botName, botTopics, BotTopic, BotAnswer } from '../../data/chatbot';
+import { speakLine, stopSpeaking, isTTSSupported } from '../../utils/voice';
 
 type CtaKind = 'form' | 'email' | 'contact' | 'team';
 
@@ -23,6 +24,10 @@ const CTA_META: Record<CtaKind, { label: string }> = {
   team: { label: 'Contact the team' },
 };
 
+// Strip emoji/pictograms so the voice reads words only
+const speakable = (s: string) =>
+  s.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{2190}-\u{21FF}]/gu, '').replace(/\s+/g, ' ').trim();
+
 const REDUCED_MOTION =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -31,6 +36,7 @@ const LAUNCHER_HINT_DURATION_MS = 6000;
 
 export function PryonxBot() {
   const navigate = useNavigate();
+  const [voiceOn, setVoiceOn] = useState(isTTSSupported());
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [typing, setTyping] = useState(false);
@@ -66,11 +72,13 @@ export function PryonxBot() {
     ]);
     setTyping(false);
     setShowHint(false);
+    if (voiceOn) speakLine(speakable(botGreeting));
   };
 
   const handleClose = () => {
     setOpen(false);
     setMessages([]);
+    stopSpeaking();
     if (typingTimer.current) clearTimeout(typingTimer.current);
   };
 
@@ -114,13 +122,15 @@ export function PryonxBot() {
 
   const handleQuestionClick = (qa: BotAnswer) => {
     pushMessage({ from: 'user', text: qa.question });
-    const deliver = () =>
+    const deliver = () => {
       pushMessage({
         from: 'bot',
         text: qa.answer,
         cta: qa.ctaHref,
         topicChips: false,
       });
+      if (voiceOn) speakLine(speakable(qa.answer));
+    };
     if (REDUCED_MOTION) {
       deliver();
       return;
@@ -173,13 +183,34 @@ export function PryonxBot() {
                   </p>
                 </div>
               </div>
-              <button
-                onClick={handleClose}
-                aria-label="Close chat"
-                className="p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
-              >
-                <X size={18} />
-              </button>
+              <div className="flex items-center space-x-1">
+                {isTTSSupported() && (
+                  <button
+                    onClick={() => {
+                      setVoiceOn((v) => {
+                        if (v) stopSpeaking();
+                        return !v;
+                      });
+                    }}
+                    aria-label={voiceOn ? 'Mute bot voice' : 'Unmute bot voice'}
+                    title={voiceOn ? 'Bot will speak answers' : 'Bot is muted'}
+                    className={`p-2 rounded-lg transition-colors ${
+                      voiceOn
+                        ? 'text-pryonx-cyan hover:bg-white/5'
+                        : 'text-gray-500 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {voiceOn ? <Volume2 size={18} /> : <VolumeX size={18} />}
+                  </button>
+                )}
+                <button
+                  onClick={handleClose}
+                  aria-label="Close chat"
+                  className="p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                >
+                  <X size={18} />
+                </button>
+              </div>
             </div>
 
             {/* Messages */}
