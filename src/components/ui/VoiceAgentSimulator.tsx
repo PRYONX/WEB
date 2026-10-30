@@ -7,11 +7,11 @@ import { speakLine, stopSpeaking, isTTSSupported } from '../../utils/voice';
 // Stable module-level script (never recreated on render — keeps the speak effect firing once per line)
 const DIALOGUE = [
   { speaker: 'Caller', text: 'Hi, I need help answering incoming customer calls and booking appointments after hours.', delay: 1000 },
-  { speaker: 'PRYONX AI', text: 'Hello! I am your PRYONX AI Voice Agent. I can answer calls 24/7, answer service questions, qualify leads, and sync directly with your calendar.', delay: 2500 },
-  { speaker: 'Caller', text: 'That sounds ideal. Can you integrate with Google Calendar and HubSpot CRM?', delay: 4500 },
-  { speaker: 'PRYONX AI', text: 'Absolutely! I integrate seamlessly with HubSpot, Salesforce, Google Calendar, and custom APIs. Shall I schedule your initial project consultation?', delay: 6500 },
-  { speaker: 'Caller', text: 'Yes, please schedule it for tomorrow at 10 AM.', delay: 8500 },
-  { speaker: 'PRYONX AI', text: 'Done! I have confirmed your appointment for tomorrow at 10:00 AM and logged all details into your CRM.', delay: 10500 },
+  { speaker: 'PRYONX AI', text: 'Hello! I am the PRYONX AI Voice Agent demo. A deployed agent is designed to answer calls around the clock, reply to service questions, and qualify leads for your business.', delay: 2500 },
+  { speaker: 'Caller', text: 'Great. Can you book an appointment for me right now?', delay: 4500 },
+  { speaker: 'PRYONX AI', text: 'I cannot book anything here — this is a browser demo with no backend. For anything real, the PRYONX team handles it personally. Use the button below to open the contact page, and the founder will get back to you.', delay: 6500 },
+  { speaker: 'Caller', text: 'So what happens once a solution like this is set up for my business?', delay: 8500 },
+  { speaker: 'PRYONX AI', text: 'It is custom-built around your workflow — phone line, calendars, and CRM included, if you need them. Head over to the contact page and tell us your business problem. That is how a founding client setup starts.', delay: 10500 },
 ];
 
 // Click-to-hear Q&A — same rule as PRYONX Bot: bot speaks, CTAs navigate in-app
@@ -20,35 +20,42 @@ const VOICE_QUESTIONS: { id: string; question: string; answer: string; cta: 'con
     id: 'what-can-you-do',
     question: 'What can you do on a call?',
     answer:
-      'I answer customer calls, reply to service questions, qualify leads, book appointments, and route important conversations to your team — every time the phone rings.',
+      'This demo only shows what a voice agent sounds like — it cannot take real calls or book anything. A deployed agent is designed to answer customer calls, reply to service questions, and qualify leads. To discuss a real setup, visit the contact page.',
+    cta: 'contact',
+  },
+  {
+    id: 'can-you-book',
+    question: 'Can you book an appointment for me?',
+    answer:
+      'No — I am a browser demo, so I cannot book, assist, or record anything. Everything real goes through the PRYONX team. Open the contact page and send your details, and the founder will personally take it forward.',
     cta: 'contact',
   },
   {
     id: 'after-hours',
     question: 'Do you work after hours?',
     answer:
-      'Yes. Unlike a front desk, I do not sleep — nights, weekends, and holidays included, no call is left unanswered.',
+      'A voice agent, once deployed, is designed to keep answering after your team signs off — nights, weekends, and holidays. This demo itself runs only while your browser tab is open.',
     cta: 'contact',
   },
   {
     id: 'integrations',
-    question: 'Which systems can you connect to?',
+    question: 'Is this connected to my calendar or CRM?',
     answer:
-      'CRMs like HubSpot and Salesforce, Google Calendar, and any custom API. PRYONX designs the integration around your existing stack.',
+      'No. Nothing here connects to your systems — it is a spoken demo with no backend. If a real solution is built for you, integrations like calendars and CRMs are designed in around your existing stack. The contact page is where that conversation starts.',
     cta: 'contact',
   },
   {
     id: 'languages',
-    question: 'Which languages do you speak?',
+    question: 'Which languages can you speak?',
     answer:
-      'English and Hindi today, and more languages can be added when your solution is custom-built for your business.',
+      'This demo speaks with whatever voice your own browser provides. A custom-built agent can be shaped for your customers — English and Hindi to begin with, and more languages as needed.',
     cta: 'contact',
   },
   {
     id: 'human-handoff',
-    question: 'What if a caller wants a human?',
+    question: 'I want to talk to a human.',
     answer:
-      'I hand over gracefully — capturing the details first and routing the call to the right person, so nothing is lost in the transfer.',
+      'Of course — you should always be able to reach a person. The PRYONX team is one click away: open the team page to see who you would be working with, or use the contact page directly.',
     cta: 'team',
   },
 ];
@@ -179,7 +186,9 @@ export function VoiceAgentSimulator() {
             </h3>
             <p className="text-xs text-gray-400 font-mono">
               {isCalling
-                ? `LIVE CALL ACTIVE (${formatTime(callDuration)})${!isMuted ? ' · 🔊 SPEAKING' : ''}`
+                ? `LIVE DEMO CALL (${formatTime(callDuration)})${
+                    !isMuted && transcriptIndex >= 1 ? ' · 🔊 SPEAKING' : ''
+                  }`
                 : questionChips || qaMessages.length > 0
                   ? 'VOICE Q&A · CLICK A QUESTION, I ANSWER ALOUD'
                   : 'READY — ASK A QUESTION OR HEAR A DEMO CALL'}
@@ -225,7 +234,8 @@ export function VoiceAgentSimulator() {
                     <p className="text-gray-400 text-sm max-w-sm mx-auto mt-1">
                       Pick a question below and the agent answers out loud using your own
                       browser's voice — nothing is recorded or sent anywhere. Or press the red
-                      button to hear a full demo call.
+                      button to hear a demo call. The agent cannot book or assist anything — it
+                      refers real requests to our contact page, just like PRYONX Bot.
                     </p>
                   </div>
                 </div>
@@ -346,16 +356,33 @@ export function VoiceAgentSimulator() {
               >
                 <div className="bg-emerald-950/40 border border-emerald-500/40 rounded-lg p-2 flex items-center space-x-2 text-emerald-400 text-xs font-mono">
                   <UserCheck size={14} />
-                  <span>Lead: Qualified</span>
+                  <span>Demo: Scripted</span>
                 </div>
                 <div className="bg-cyan-950/40 border border-cyan-500/40 rounded-lg p-2 flex items-center space-x-2 text-cyan-400 text-xs font-mono">
                   <Calendar size={14} />
-                  <span>Booking: Synced</span>
+                  <span>No Data Collected</span>
                 </div>
                 <div className="bg-purple-950/40 border border-purple-500/40 rounded-lg p-2 flex items-center space-x-2 text-purple-400 text-xs font-mono col-span-2 sm:col-span-1">
                   <Activity size={14} />
                   <span>Voice: Browser Demo</span>
                 </div>
+              </motion.div>
+            )}
+
+            {/* Demo cannot book — refer real requests in-app, same rule as PRYONX Bot */}
+            {transcriptIndex >= 3 && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-wrap gap-2 pt-1"
+              >
+                <button
+                  onClick={() => handleQaCta('contact')}
+                  className="inline-flex items-center space-x-1 px-3 py-1.5 text-xs rounded-full bg-pryonx-red text-white hover:bg-red-500 transition-colors"
+                >
+                  <Send size={12} />
+                  <span>Start a project</span>
+                </button>
               </motion.div>
             )}
           </div>

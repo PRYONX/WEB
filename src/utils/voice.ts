@@ -12,10 +12,12 @@ function pickVoice(): SpeechSynthesisVoice | null {
   const voices = window.speechSynthesis.getVoices();
   if (voices.length === 0) return null;
 
-  // Prefer Indian English, then any en-IN-ish English, then any English
+  // Prefer a female voice: Indian English female first, then any female English,
+  // then any Indian English, then any English (higher pitch in speakLine adds a softer tone)
+  const FEMALE = /female|woman|zira|susan|samantha|victoria|karen|tessa|heera|kalpana|neel|aditi|raveena|aria|jenny|sonia|libby|ava/i;
   cachedVoice =
-    voices.find((v) => v.lang === 'en-IN' && /female|woman|neel|kalpana|heera/i.test(v.name)) ||
-    voices.find((v) => v.lang === 'en-IN') ||
+    voices.find((v) => v.lang.startsWith('en-IN') && FEMALE.test(v.name)) ||
+    voices.find((v) => v.lang.startsWith('en') && FEMALE.test(v.name)) ||
     voices.find((v) => v.lang.startsWith('en-IN')) ||
     voices.find((v) => v.lang.startsWith('en-GB')) ||
     voices.find((v) => v.lang.startsWith('en')) ||
@@ -40,7 +42,7 @@ export function speakLine(text: string, opts?: { rate?: number; pitch?: number }
   if (voice) utterance.voice = voice;
   utterance.lang = voice?.lang || 'en-IN';
   utterance.rate = opts?.rate ?? 1.02;   // slightly brisk, agent-like
-  utterance.pitch = opts?.pitch ?? 1.0;
+  utterance.pitch = opts?.pitch ?? 1.15; // a touch higher for a warmer, feminine tone
 
   synth.speak(utterance);
 }
