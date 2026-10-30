@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://pryonx.com/</loc>
-    <lastmod>2026-08-30</lastmod>
+    <loc>https://www.pryonx.in/</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://pryonx.com/services</loc>
-    <lastmod>2026-08-30</lastmod>
+    <loc>https://www.pryonx.in/services</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pryonx.com/solutions</loc>
-    <lastmod>2026-08-30</lastmod>
+    <loc>https://www.pryonx.in/solutions</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pryonx.com/how-we-work</loc>
-    <lastmod>2026-08-30</lastmod>
+    <loc>https://www.pryonx.in/how-we-work</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pryonx.com/about</loc>
-    <lastmod>2026-08-30</lastmod>
+    <loc>https://www.pryonx.in/about</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://pryonx.com/contact</loc>
-    <lastmod>2026-08-30</lastmod>
+    <loc>https://www.pryonx.in/team</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.pryonx.in/contact</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

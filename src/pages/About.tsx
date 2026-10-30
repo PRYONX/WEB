@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Target, Zap, Shield, Users, Lightbulb, Sparkles } from 'lucide-react';
+import { ArrowRight, Target, Zap, Shield, Users, Lightbulb, Sparkles, Linkedin } from 'lucide-react';
+import founderPhoto from '../assets/team/debadattaa-jena.jpg';
+import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { ParticleBackground } from '../components/ui/ParticleBackground';
@@ -205,6 +207,63 @@ export function About() {
                 </p>
               </div>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* LEADERSHIP */}
+      <section id="leadership" className="py-20 md:py-32 bg-pryonx-dark-bg">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mx-auto"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 text-center">
+              Leadership
+            </h2>
+            <Card className="text-center md:text-left">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <img
+                  src={founderPhoto}
+                  alt={`${siteData.founder.name} — ${siteData.founder.role} at PRYONX`}
+                  width={160}
+                  height={200}
+                  className="w-32 h-40 md:w-40 md:h-52 object-cover rounded-2xl border border-gray-700/60 flex-shrink-0"
+                />
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-white">{siteData.founder.name}</h3>
+                  <p className="text-pryonx-cyan font-medium">{siteData.founder.role}</p>
+                  <p className="text-gray-400 leading-relaxed">
+                    PRYONX was founded by {siteData.founder.name} — an AI &amp; ML developer and Python
+                    full-stack engineer — with a clear mission: build practical,
+                    production-ready AI systems that solve real business problems — not demos that look
+                    good in a presentation. Under his leadership, PRYONX delivers custom AI solutions,
+                    intelligent automation, AI products, and AI voice agents tailored to each client.
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                    <a
+                      href={siteData.founder.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center space-x-2 text-pryonx-cyan hover:opacity-80 transition-opacity font-medium"
+                    >
+                      <Linkedin className="w-5 h-5" />
+                      <span>Connect on LinkedIn</span>
+                    </a>
+                    <Link
+                      to="/team"
+                      className="inline-flex items-center space-x-2 text-white hover:text-pryonx-cyan transition-colors font-medium"
+                    >
+                      <span>View Full Profile</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </Card>
           </motion.div>
         </div>
       </section>

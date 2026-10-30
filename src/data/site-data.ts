@@ -9,9 +9,17 @@ export const siteData = {
     { name: 'Solutions', href: '/solutions' },
     { name: 'How We Work', href: '/how-we-work' },
     { name: 'About', href: '/about' },
+    { name: 'Team', href: '/team' },
     { name: 'Contact Us', href: '/contact' },
   ],
   
+  founder: {
+    name: 'Er. Debadattaa Jena',
+    role: 'CEO & Founder',
+    linkedin: 'https://www.linkedin.com/in/er-debadattaa-jena-a13a72300',
+    profileUrl: 'https://www.pryonx.in/team#debadattaa-jena',
+  },
+
   googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScPAR3Kw95W62u8vshbVdSupdKbXAWUUHYhdLxNFIjVGWMTPg/viewform?usp=publish-editor',
 
   cta: {
@@ -189,13 +197,10 @@ export const siteData = {
       ],
       company: [
         { name: 'About', href: '/about' },
+        { name: 'Team', href: '/team' },
         { name: 'How We Work', href: '/how-we-work' },
         { name: 'Solutions', href: '/solutions' },
         { name: 'Contact Us', href: '/contact' },
-      ],
-      legal: [
-        { name: 'Privacy Policy', href: '/privacy' },
-        { name: 'Terms of Service', href: '/terms' },
       ],
     },
   },
