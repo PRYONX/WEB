@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { PhoneCall, PhoneOff, Calendar, UserCheck, Activity, Volume2, VolumeX, Send, Users, ArrowLeft } from 'lucide-react';
+import { PhoneCall, PhoneOff, Calendar, UserCheck, Activity, Volume2, VolumeX, Send, Users, ArrowLeft, Info } from 'lucide-react';
 import { speakLine, stopSpeaking, isTTSSupported } from '../../utils/voice';
 
 // Stable module-level script (never recreated on render — keeps the speak effect firing once per line)
@@ -183,6 +183,9 @@ export function VoiceAgentSimulator() {
           <div>
             <h3 className="text-white font-bold text-base md:text-lg flex items-center gap-2 font-space-grotesk">
               PRYONX AI Voice Simulator
+              <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-400">
+                Demo
+              </span>
             </h3>
             <p className="text-xs text-gray-400 font-mono">
               {isCalling
@@ -387,6 +390,15 @@ export function VoiceAgentSimulator() {
             )}
           </div>
         )}
+      </div>
+
+      {/* Demo notice — no real calls are placed or received */}
+      <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-center">
+        <Info size={14} className="text-amber-400 shrink-0" />
+        <p className="text-amber-300 text-xs font-medium">
+          This is a demo — not a real call simulation. No phone call is placed or received; it only
+          shows how a PRYONX voice agent would talk, using your browser's own speech.
+        </p>
       </div>
 
       {/* Control Buttons */}

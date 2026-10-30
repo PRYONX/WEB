@@ -291,6 +291,10 @@ export function Home() {
             >
               {/* Interactive AI Voice Agent Simulator Widget */}
               <VoiceAgentSimulator />
+              <p className="mt-3 text-center text-xs text-amber-400/90 font-medium">
+                ⚠️ Demo only — this is not a real call simulation. It runs entirely in your browser
+                and no phone call is placed or received.
+              </p>
             </motion.div>
           </div>
         </div>
