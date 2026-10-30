@@ -33,9 +33,10 @@ export function isTTSSupported(): boolean {
 /**
  * Make text TTS-friendly before speaking:
  * - strip emoji/pictograms so the voice reads words only
- * - respell the brand for the voice: measured TTS output showed "PRYONX" gets an
- *   extra "ks" tail and hyphenated forms get spelled letter-by-letter; "Pryon"
- *   matches the intended two-syllable brand sound (on-screen text is untouched)
+ * - respell the brand for the voice so it says "PRY-onks" (2 syllables, clear "ks" tail).
+ *   Measured in-browser: "PRYONX" adds a wrong "Onyx" tail, hyphen-free forms reduce
+ *   the vowel, and spaced/hyphenated-X variants get letter-spelled ("Pry On eks").
+ *   "Pry-onks" was the most stable (1691ms ±2ms). On-screen text is left untouched.
  */
 const emojiStrip = (s: string) =>
   s
@@ -44,7 +45,7 @@ const emojiStrip = (s: string) =>
     .trim();
 
 export function toSpeakableText(text: string): string {
-  return emojiStrip(text).replace(/PRYONX/gi, 'Pryon');
+  return emojiStrip(text).replace(/PRYONX/gi, 'Pry-onks');
 }
 
 /** Speak a line. Cancels anything currently speaking. Safe no-op if unsupported. */
