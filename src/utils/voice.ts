@@ -30,6 +30,23 @@ export function isTTSSupported(): boolean {
   return typeof window !== 'undefined' && 'speechSynthesis' in window;
 }
 
+/**
+ * Make text TTS-friendly before speaking:
+ * - strip emoji/pictograms so the voice reads words only
+ * - respell the brand for the voice: measured TTS output showed "PRYONX" gets an
+ *   extra "ks" tail and hyphenated forms get spelled letter-by-letter; "Pryon"
+ *   matches the intended two-syllable brand sound (on-screen text is untouched)
+ */
+const emojiStrip = (s: string) =>
+  s
+    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{2190}-\u{21FF}]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+export function toSpeakableText(text: string): string {
+  return emojiStrip(text).replace(/PRYONX/gi, 'Pryon');
+}
+
 /** Speak a line. Cancels anything currently speaking. Safe no-op if unsupported. */
 export function speakLine(text: string, opts?: { rate?: number; pitch?: number }): void {
   if (!isTTSSupported()) return;
@@ -37,7 +54,7 @@ export function speakLine(text: string, opts?: { rate?: number; pitch?: number }
   const synth = window.speechSynthesis;
   synth.cancel();
 
-  const utterance = new SpeechSynthesisUtterance(text);
+  const utterance = new SpeechSynthesisUtterance(toSpeakableText(text));
   const voice = pickVoice();
   if (voice) utterance.voice = voice;
   utterance.lang = voice?.lang || 'en-IN';
