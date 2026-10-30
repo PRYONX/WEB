@@ -237,11 +237,17 @@ export function About() {
                   <h3 className="text-2xl font-bold text-white">{siteData.founder.name}</h3>
                   <p className="text-pryonx-cyan font-medium">{siteData.founder.role}</p>
                   <p className="text-gray-400 leading-relaxed">
-                    PRYONX was founded by {siteData.founder.name} — an AI &amp; ML developer and Python
-                    full-stack engineer — with a clear mission: build practical,
-                    production-ready AI systems that solve real business problems — not demos that look
-                    good in a presentation. Under his leadership, PRYONX delivers custom AI solutions,
-                    intelligent automation, AI products, and AI voice agents tailored to each client.
+                    PRYONX was founded by {siteData.founder.name} — an AI &amp; ML developer, Python
+                    full-stack engineer, and cyber security practitioner — with a clear mission: build
+                    practical, production-ready AI systems that solve real business problems, not demos
+                    that look good in a presentation.
+                  </p>
+                  <p className="text-gray-400 leading-relaxed">
+                    He leads every engagement personally — from discovering the true business problem
+                    and designing the architecture, to deploying systems that handle real workloads.
+                    Under his leadership, PRYONX delivers custom AI solutions, intelligent automation,
+                    AI products, and AI voice agents tailored to each client, staying technology
+                    independent and honest about when AI is — and isn't — the right answer.
                   </p>
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
                     <a
