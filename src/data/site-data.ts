@@ -173,7 +173,12 @@ export const siteData = {
   },
   
   contact: {
-    email: 'info.pryonx@gmail.com',
+    email: 'info@pryonx.in',
+    emails: [
+      { address: 'info@pryonx.in', label: 'General & Sales (Main)' },
+      { address: 'support.pryonx@gmail.com', label: 'Support' },
+      { address: 'info.pryonx@gmail.com', label: 'Alternate' },
+    ],
     phones: ['7683886320', '7815099648'],
     location: 'Remote-First',
     projectTypes: [

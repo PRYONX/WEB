@@ -84,30 +84,35 @@ export function Contact() {
                 <h3 className="text-xl font-bold text-white mb-6">Get in Touch Directly</h3>
                 
                 <div className="space-y-6">
-                  {/* Email block */}
-                  <div className="flex items-start justify-between p-3 rounded-xl bg-pryonx-dark-bg/60 border border-gray-800/80">
-                    <div className="flex items-start">
-                      <div className="w-12 h-12 bg-pryonx-cyan/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                        <Mail className="w-6 h-6 text-pryonx-cyan" />
-                      </div>
-                      <div>
-                        <h4 className="text-white font-semibold mb-1 text-sm">Email Support & Sales</h4>
-                        <a 
-                          href={`mailto:${siteData.contact.email}`}
-                          className="text-gray-400 hover:text-pryonx-cyan transition-colors text-sm font-mono"
-                        >
-                          {siteData.contact.email}
-                        </a>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleCopy(siteData.contact.email, 'email')}
-                      className="p-2 text-gray-400 hover:text-white transition-colors"
-                      title="Copy Email"
+                  {/* Email blocks */}
+                  {siteData.contact.emails.map((mail) => (
+                    <div
+                      key={mail.address}
+                      className="flex items-start justify-between p-3 rounded-xl bg-pryonx-dark-bg/60 border border-gray-800/80"
                     >
-                      {copiedText === 'email' ? <Check size={18} className="text-emerald-400" /> : <Copy size={18} />}
-                    </button>
-                  </div>
+                      <div className="flex items-start">
+                        <div className="w-12 h-12 bg-pryonx-cyan/20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                          <Mail className="w-6 h-6 text-pryonx-cyan" />
+                        </div>
+                        <div>
+                          <h4 className="text-white font-semibold mb-1 text-sm">{mail.label}</h4>
+                          <a 
+                            href={`mailto:${mail.address}`}
+                            className="text-gray-400 hover:text-pryonx-cyan transition-colors text-sm font-mono"
+                          >
+                            {mail.address}
+                          </a>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleCopy(mail.address, mail.address)}
+                        className="p-2 text-gray-400 hover:text-white transition-colors"
+                        title="Copy Email"
+                      >
+                        {copiedText === mail.address ? <Check size={18} className="text-emerald-400" /> : <Copy size={18} />}
+                      </button>
+                    </div>
+                  ))}
 
                   {/* Phone block */}
                   <div className="flex items-start justify-between p-3 rounded-xl bg-pryonx-dark-bg/60 border border-gray-800/80">
