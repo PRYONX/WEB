@@ -43,7 +43,7 @@ export function Navigation() {
             <motion.img 
               src={logo} 
               alt="PRYONX Logo - AI Automation | Advanced AI Solutions" 
-              className="h-9 md:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105 filter group-hover:drop-shadow-[0_0_12px_rgba(0,180,216,0.6)]"
+              className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover transition-transform duration-300 group-hover:scale-105 filter group-hover:drop-shadow-[0_0_12px_rgba(0,180,216,0.6)]"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             />

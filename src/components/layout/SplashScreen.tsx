@@ -104,7 +104,7 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
                 <img 
                   src={logo} 
                   alt="PRYONX Logo" 
-                  className="h-28 md:h-32 w-auto mx-auto object-contain drop-shadow-[0_0_25px_rgba(0,180,216,0.5)]"
+                  className="h-36 w-36 md:h-44 md:w-44 mx-auto rounded-full object-cover drop-shadow-[0_0_25px_rgba(0,180,216,0.5)]"
                 />
               </motion.div>
             </div>

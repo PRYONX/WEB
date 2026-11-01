@@ -14,7 +14,7 @@ export function Footer() {
               <img 
                 src={logo} 
                 alt="PRYONX Logo - AI Automation | Advanced AI Solutions" 
-                className="h-10 w-auto object-contain"
+                className="h-12 w-12 rounded-full object-cover"
               />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
