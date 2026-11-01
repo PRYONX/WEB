@@ -69,7 +69,7 @@ export function speakLine(
   const voice = pickVoice();
   if (voice) utterance.voice = voice;
   utterance.lang = voice?.lang || 'en-IN';
-  utterance.rate = opts?.rate ?? 1.02;   // slightly brisk, agent-like
+  utterance.rate = opts?.rate ?? 0.9;    // slower, clearer delivery
   utterance.pitch = opts?.pitch ?? 1.15; // a touch higher for a warmer, feminine tone
 
   if (opts?.onEnd) {

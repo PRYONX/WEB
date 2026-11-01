@@ -36,7 +36,8 @@ const LAUNCHER_HINT_DURATION_MS = 6000;
 
 export function PryonxBot() {
   const navigate = useNavigate();
-  const [voiceOn, setVoiceOn] = useState(isTTSSupported());
+  // Voice OFF by default: visitors opt in to listening via the header toggle.
+  const [voiceOn, setVoiceOn] = useState(false);
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [typing, setTyping] = useState(false);
