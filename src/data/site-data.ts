@@ -39,6 +39,7 @@ export const siteData = {
     'AI PRODUCTS',
     'AI VOICE AGENTS',
     'AI INTEGRATION',
+    'AI CONSULTING',
     'INTELLIGENT SYSTEMS',
   ],
   
@@ -94,6 +95,21 @@ export const siteData = {
         'Call Routing',
       ],
       featured: true,
+    },
+    {
+      id: 'ai-consulting',
+      title: 'AI Consulting & Education',
+      description: 'Get expert guidance on AI implementation, learn how to use AI effectively, and optimize your existing AI solutions.',
+      capabilities: [
+        'AI Implementation Strategy',
+        'AI Use Case Identification',
+        'AI Workflow Optimization',
+        'AI Training & Workshops',
+        'AI ROI Analysis',
+        'AI Best Practices',
+        'Existing AI Optimization',
+        'AI Adoption Guidance',
+      ],
     },
   ],
   
@@ -193,6 +209,9 @@ export const siteData = {
       'AI Product Development',
       'AI Voice Agent',
       'AI Integration',
+      'AI Consulting',
+      'AI Education',
+      'AI Optimization',
       'Other',
     ],
   },
@@ -205,6 +224,7 @@ export const siteData = {
         { name: 'AI Product Development', href: '/services#ai-products' },
         { name: 'AI Voice Agents', href: '/services#ai-voice' },
         { name: 'AI Integration', href: '/services#ai-integration' },
+        { name: 'AI Consulting & Education', href: '/services#ai-consulting' },
       ],
       company: [
         { name: 'About', href: '/about' },

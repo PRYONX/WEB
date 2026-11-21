@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Workflow, Brain, Code, Phone, ArrowRight, Zap, CheckCircle, Sparkles } from 'lucide-react';
+import { Workflow, Brain, Code, Phone, ArrowRight, Zap, CheckCircle, Sparkles, Lightbulb } from 'lucide-react';
 import { siteData } from '../data/site-data';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -332,6 +332,65 @@ export function Services() {
               </div>
               <Button href={siteData.googleFormUrl}>
                 Discuss Integration
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI CONSULTING & EDUCATION */}
+      <section id="ai-consulting" className="py-24 md:py-36 bg-pryonx-dark-bg">
+        <div className="container-custom max-w-9xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="order-2 lg:order-1"
+            >
+              <Card className="h-full">
+                <h3 className="text-xl font-bold text-white mb-4">What It Solves</h3>
+                <ul className="space-y-3">
+                  <li className="text-gray-400">• Unclear AI implementation strategy</li>
+                  <li className="text-gray-400">• Difficulty identifying AI use cases</li>
+                  <li className="text-gray-400">• Existing AI tools underutilized</li>
+                  <li className="text-gray-400">• Lack of AI expertise in team</li>
+                  <li className="text-gray-400">• Need for AI training and education</li>
+                  <li className="text-gray-400">• Poor ROI from current AI investments</li>
+                </ul>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="order-1 lg:order-2"
+            >
+              <div className="flex items-center mb-6">
+                <div className="w-16 h-16 bg-pryonx-teal rounded-xl flex items-center justify-center mr-4">
+                  <Lightbulb className="w-8 h-8 text-white" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  AI Consulting & Education
+                </h2>
+              </div>
+              <p className="text-gray-300 text-lg mb-6">
+                Get expert guidance on AI implementation, learn how to use AI effectively, and optimize your existing AI solutions. Just share your business problem - we'll help you find the right AI solution.
+              </p>
+              <div className="space-y-4 mb-8">
+                {siteData.services[4].capabilities.map((capability) => (
+                  <div key={capability} className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-pryonx-teal mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-300">{capability}</span>
+                  </div>
+                ))}
+              </div>
+              <Button href={siteData.googleFormUrl}>
+                Discuss AI Consulting
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </motion.div>
