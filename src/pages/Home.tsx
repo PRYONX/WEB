@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Zap, Workflow, Phone, Brain, Code, TrendingUp, FileText, Headphones, Sparkles, BarChart3, MessageSquare, Search, Cloud, Cpu, Linkedin, LucideIcon } from 'lucide-react';
+import { ArrowRight, Zap, Workflow, Phone, Brain, Code, TrendingUp, FileText, Headphones, Sparkles, BarChart3, MessageSquare, Search, Cloud, Cpu, Linkedin, Mic, LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { siteData } from '../data/site-data';
@@ -25,6 +25,7 @@ const iconMap: Record<string, LucideIcon> = {
   Cloud,
   Code,
   Phone,
+  Mic,
 };
 
 export function Home() {
@@ -667,6 +668,74 @@ export function Home() {
               </Card>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* OUR PRODUCTS */}
+      <section className="py-24 md:py-36 bg-pryonx-dark-bg">
+        <div className="container-custom max-w-9xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Our Products
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              Powerful AI tools designed for security, privacy, and real business value.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {siteData.products.map((product, index) => {
+              const Icon = iconMap[product.icon as keyof typeof iconMap] || Phone;
+              const colorClass = product.color === 'pryonx-red' ? 'bg-pryonx-red' : 
+                               product.color === 'pryonx-cyan' ? 'bg-pryonx-cyan' :
+                               product.color === 'pryonx-teal' ? 'bg-pryonx-teal' : 'bg-pryonx-blue';
+              
+              return (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <Card className="h-full text-center" enable3D={false}>
+                    <div className={`w-12 h-12 ${colorClass} rounded-xl flex items-center justify-center mx-auto mb-4`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">{product.name}</h3>
+                    <p className="text-pryonx-cyan text-sm mb-3">{product.tagline}</p>
+                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">{product.description}</p>
+                    <Link 
+                      to={`/products#${product.id}`}
+                      className="text-pryonx-cyan hover:text-white text-sm font-medium transition-colors inline-flex items-center"
+                    >
+                      Learn More
+                      <ArrowRight className="ml-1 w-4 h-4" />
+                    </Link>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center mt-12"
+          >
+            <Button href="/products" variant="outline" size="lg">
+              View All Products
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </motion.div>
         </div>
       </section>
 

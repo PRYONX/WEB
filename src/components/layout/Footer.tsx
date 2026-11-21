@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="bg-pryonx-surface border-t border-gray-800">
       <div className="container-custom py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2 cursor-pointer hover:opacity-90 transition-opacity">
@@ -63,6 +63,23 @@ export function Footer() {
                 <Linkedin size={16} />
               </a>
             </div>
+          </div>
+
+          {/* Products */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Products</h3>
+            <ul className="space-y-2">
+              {siteData.footer.links.products.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.href}
+                    className="text-gray-400 hover:text-pryonx-cyan transition-colors text-sm"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Services */}

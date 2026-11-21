@@ -6,6 +6,7 @@ export const siteData = {
   navigation: [
     { name: 'Home', href: '/' },
     { name: 'Services', href: '/services' },
+    { name: 'Products', href: '/products' },
     { name: 'Solutions', href: '/solutions' },
     { name: 'How We Work', href: '/how-we-work' },
     { name: 'About', href: '/about' },
@@ -128,6 +129,77 @@ export const siteData = {
     { name: 'AI Voice Agents', icon: 'Phone' },
   ],
   
+  products: [
+    {
+      id: 'ai-call-agent',
+      name: 'AI Call Agent',
+      tagline: 'On-Premises AI Voice Agent',
+      description: 'Enterprise-grade AI call agent that runs entirely on your local infrastructure. Most secure and reliable solution for business communications.',
+      features: [
+        'Runs 100% on-premises',
+        'No cloud dependency',
+        'Complete data privacy',
+        'Custom voice training',
+        'Multi-language support',
+        'Enterprise security',
+      ],
+      badge: 'Most Secure',
+      icon: 'Phone',
+      color: 'pryonx-red',
+    },
+    {
+      id: 'youdoc',
+      name: 'YouDoc',
+      tagline: 'Offline Document Converter',
+      description: 'Convert your documents completely offline. No internet or cloud required - your documents stay in your hands, secure and reliable.',
+      features: [
+        '100% offline operation',
+        'No cloud storage',
+        'Multiple format support',
+        'Batch processing',
+        'Preserves formatting',
+        'Data sovereignty',
+      ],
+      badge: 'Offline First',
+      icon: 'FileText',
+      color: 'pryonx-cyan',
+    },
+    {
+      id: 'zero-cloud',
+      name: 'Zero Cloud',
+      tagline: 'Smart Document Extractor',
+      description: 'Advanced document extraction tool with three versions: Lite for basic extraction, Standard for enhanced analysis, and Pro for comprehensive document intelligence.',
+      features: [
+        'Lite: Basic extraction',
+        'Standard: Extract + Check + Analyze',
+        'Pro: Full document intelligence',
+        'Custom extraction rules',
+        'Accuracy reporting',
+        'Batch processing',
+      ],
+      badge: '3 Versions Available',
+      icon: 'Search',
+      color: 'pryonx-teal',
+    },
+    {
+      id: 'meeting-analyzer',
+      name: 'Meeting Analyzer Note Maker',
+      tagline: 'Android Meeting Intelligence',
+      description: 'AI-powered Android app that automatically takes notes from your conversations, captures thoughts in written form, and records meetings with person-wise attribution.',
+      features: [
+        'Automatic note taking',
+        'Person-wise attribution',
+        'Meeting recording',
+        'Thought capture',
+        'Android native',
+        'Export capabilities',
+      ],
+      badge: 'Android App',
+      icon: 'Mic',
+      color: 'pryonx-blue',
+    },
+  ],
+  
   process: [
     {
       step: '01',
@@ -218,6 +290,12 @@ export const siteData = {
   
   footer: {
     links: {
+      products: [
+        { name: 'AI Call Agent', href: '/products#ai-call-agent' },
+        { name: 'YouDoc', href: '/products#youdoc' },
+        { name: 'Zero Cloud', href: '/products#zero-cloud' },
+        { name: 'Meeting Analyzer', href: '/products#meeting-analyzer' },
+      ],
       services: [
         { name: 'AI Automation', href: '/services#ai-automation' },
         { name: 'Custom AI Solutions', href: '/services#custom-ai' },

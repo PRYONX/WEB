@@ -6,6 +6,7 @@ import { SplashScreen } from './components/layout/SplashScreen';
 import { SeoSync } from './components/seo/SeoSync';
 import { Home } from './pages/Home';
 import { Services } from './pages/Services';
+import { Products } from './pages/Products';
 import { Solutions } from './pages/Solutions';
 import { HowWeWork } from './pages/HowWeWork';
 import { About } from './pages/About';
@@ -57,6 +58,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/products" element={<Products />} />
             <Route path="/solutions" element={<Solutions />} />
             <Route path="/how-we-work" element={<HowWeWork />} />
             <Route path="/about" element={<About />} />
