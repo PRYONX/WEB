@@ -5,10 +5,14 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   
   body {
     @apply bg-pryonx-dark-bg text-gray-100 font-inter antialiased;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -22,7 +26,15 @@
   }
   
   .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16;
+  }
+  
+  .container-wide {
+    @apply max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16;
+  }
+  
+  .container-narrow {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
 

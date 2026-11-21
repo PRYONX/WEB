@@ -7,9 +7,9 @@ import { ParticleBackground } from '../components/ui/ParticleBackground';
 
 export function Services() {
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-x-hidden">
       {/* HERO */}
-      <section className="relative pt-36 pb-24 md:pt-44 md:pb-36 bg-pryonx-dark-bg overflow-hidden">
+      <section className="relative pt-40 pb-28 md:pt-48 md:pb-40 bg-pryonx-dark-bg overflow-hidden">
         <ParticleBackground particleCount={45} interactive={true} />
         
         {/* Glow ambient background */}
@@ -47,8 +47,8 @@ export function Services() {
 
 
       {/* AI AUTOMATION */}
-      <section id="ai-automation" className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section id="ai-automation" className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -103,8 +103,8 @@ export function Services() {
       </section>
 
       {/* CUSTOM AI SOLUTIONS */}
-      <section id="custom-ai" className="py-20 md:py-32 bg-pryonx-dark-bg">
-        <div className="container-custom">
+      <section id="custom-ai" className="py-24 md:py-36 bg-pryonx-dark-bg">
+        <div className="container-custom max-w-9xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -161,8 +161,8 @@ export function Services() {
       </section>
 
       {/* AI PRODUCT DEVELOPMENT */}
-      <section id="ai-products" className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section id="ai-products" className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -217,7 +217,7 @@ export function Services() {
       </section>
 
       {/* AI VOICE AGENTS */}
-      <section id="ai-voice" className="py-20 md:py-32 bg-pryonx-dark-bg relative overflow-hidden">
+      <section id="ai-voice" className="py-24 md:py-36 bg-pryonx-dark-bg relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-pryonx-red/5 to-transparent" />
         
         <div className="container-custom relative z-10">
@@ -276,8 +276,8 @@ export function Services() {
       </section>
 
       {/* AI INTEGRATION */}
-      <section id="ai-integration" className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section id="ai-integration" className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -340,7 +340,7 @@ export function Services() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-pryonx-surface to-pryonx-dark-bg">
+      <section className="py-24 md:py-36 bg-gradient-to-br from-pryonx-surface to-pryonx-dark-bg">
         <div className="container-custom text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

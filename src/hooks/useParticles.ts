@@ -47,6 +47,8 @@ export function useParticles(
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
+      canvas.style.maxWidth = '100%';
+      canvas.style.maxHeight = '100%';
       
       ctx.scale(dpr, dpr);
 

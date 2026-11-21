@@ -40,7 +40,7 @@ export function HowWeWork() {
   ];
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-x-hidden">
       {/* HERO */}
       <section className="relative pt-36 pb-24 md:pt-44 md:pb-36 bg-pryonx-dark-bg overflow-hidden">
         <ParticleBackground particleCount={45} interactive={true} />
@@ -80,8 +80,8 @@ export function HowWeWork() {
 
 
       {/* OUR PHILOSOPHY */}
-      <section className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -114,8 +114,8 @@ export function HowWeWork() {
       </section>
 
       {/* DETAILED PROCESS */}
-      <section className="py-20 md:py-32 bg-pryonx-dark-bg">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-dark-bg">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -168,8 +168,8 @@ export function HowWeWork() {
       </section>
 
       {/* WHAT MAKES US DIFFERENT */}
-      <section className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -266,7 +266,7 @@ export function HowWeWork() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-pryonx-surface to-pryonx-dark-bg">
+      <section className="py-24 md:py-36 bg-gradient-to-br from-pryonx-surface to-pryonx-dark-bg">
         <div className="container-custom text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

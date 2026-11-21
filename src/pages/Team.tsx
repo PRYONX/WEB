@@ -7,7 +7,7 @@ import { siteData } from '../data/site-data';
 
 export function Team() {
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-x-hidden">
       {/* HERO */}
       <section className="relative pt-36 pb-20 md:pt-44 md:pb-28 bg-pryonx-dark-bg overflow-hidden">
         <ParticleBackground particleCount={45} interactive={true} />
@@ -47,7 +47,7 @@ export function Team() {
           id={member.id}
           className={`py-20 md:py-28 ${memberIndex % 2 === 0 ? 'bg-pryonx-surface' : 'bg-pryonx-dark-bg'}`}
         >
-          <div className="container-custom">
+          <div className="container-custom max-w-9xl">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
               {/* Photo */}
               <motion.div

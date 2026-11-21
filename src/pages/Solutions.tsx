@@ -113,9 +113,9 @@ export function Solutions() {
   ];
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-x-hidden">
       {/* HERO */}
-      <section className="relative pt-36 pb-24 md:pt-44 md:pb-36 bg-pryonx-dark-bg overflow-hidden">
+      <section className="relative pt-40 pb-28 md:pt-48 md:pb-40 bg-pryonx-dark-bg overflow-hidden">
         <ParticleBackground particleCount={45} interactive={true} />
         
         {/* Glow ambient background */}
@@ -153,7 +153,7 @@ export function Solutions() {
 
       {/* INTERACTIVE ROI CALCULATOR SECTION */}
       <section className="py-20 bg-pryonx-dark-bg border-b border-gray-800">
-        <div className="container-custom">
+        <div className="container-custom max-w-9xl">
           <RoiCalculator />
         </div>
       </section>
@@ -166,7 +166,7 @@ export function Solutions() {
           key={category.category}
           className={`py-20 md:py-32 ${categoryIndex % 2 === 0 ? 'bg-pryonx-surface' : 'bg-pryonx-dark-bg'}`}
         >
-          <div className="container-custom">
+          <div className="container-custom max-w-9xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -214,7 +214,7 @@ export function Solutions() {
       ))}
 
       {/* CTA */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-pryonx-surface to-pryonx-dark-bg">
+      <section className="py-24 md:py-36 bg-gradient-to-br from-pryonx-surface to-pryonx-dark-bg">
         <div className="container-custom text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

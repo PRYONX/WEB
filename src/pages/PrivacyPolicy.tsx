@@ -31,7 +31,7 @@ const POLICY_SECTIONS = [
 
 export function PrivacyPolicy() {
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-x-hidden">
       {/* HERO */}
       <section className="relative pt-36 pb-16 md:pt-44 md:pb-20 bg-pryonx-dark-bg overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-pryonx-cyan/10 rounded-full blur-[140px] pointer-events-none" />
@@ -59,7 +59,7 @@ export function PrivacyPolicy() {
 
       {/* POLICY CONTENT */}
       <section className="py-16 md:py-24 bg-pryonx-surface">
-        <div className="container-custom">
+        <div className="container-custom max-w-9xl">
           <div className="max-w-3xl mx-auto space-y-10">
             <motion.p
               initial={{ opacity: 0, y: 20 }}

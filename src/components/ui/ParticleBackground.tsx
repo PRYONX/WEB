@@ -16,11 +16,13 @@ export function ParticleBackground({
   useParticles(canvasRef, particleCount, interactive);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={`absolute inset-0 pointer-events-none ${className}`}
-      style={{ opacity: 0.75 }}
-    />
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <canvas
+        ref={canvasRef}
+        className={`absolute inset-0 ${className}`}
+        style={{ opacity: 0.75 }}
+      />
+    </div>
   );
 }
 

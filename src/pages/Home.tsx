@@ -29,9 +29,9 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function Home() {
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-x-hidden">
       {/* HERO SECTION */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20 px-4">
         {/* Background Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(10,25,47,0.9),rgba(10,25,47,0.85)),linear-gradient(rgba(0,180,216,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(0,180,216,0.06)_1px,transparent_1px)] bg-[size:100%100%,60px_60px,60px_60px]" />
         
@@ -80,13 +80,13 @@ export function Home() {
 
 
 
-        <div className="container-custom relative z-10">
+        <div className="container-custom relative z-10 max-w-9xl">
           <ParallaxContainer strength={0.04}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center max-w-4xl mx-auto"
+              className="text-center max-w-5xl mx-auto"
             >
               {/* Badge */}
               <motion.div
@@ -135,8 +135,8 @@ export function Home() {
       </section>
 
       {/* CAPABILITIES STRIP */}
-      <section className="py-10 bg-pryonx-surface/90 border-y border-gray-800/80 relative backdrop-blur-md">
-        <div className="container-custom">
+      <section className="py-16 bg-pryonx-surface/90 border-y border-gray-800/80 relative backdrop-blur-md">
+        <div className="container-custom max-w-9xl">
           <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12">
             {siteData.capabilities.map((capability, index) => (
               <motion.div
@@ -158,8 +158,8 @@ export function Home() {
 
 
       {/* COMPANY INTRODUCTION */}
-      <section className="py-20 md:py-32 bg-pryonx-dark-bg">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-dark-bg">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -207,8 +207,8 @@ export function Home() {
       </section>
 
       {/* CORE SERVICES */}
-      <section className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -260,10 +260,10 @@ export function Home() {
       </section>
 
       {/* FEATURED AI VOICE AGENT */}
-      <section className="py-20 md:py-32 bg-pryonx-dark-bg relative overflow-hidden">
+      <section className="py-24 md:py-36 bg-pryonx-dark-bg relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-pryonx-red/5 to-transparent" />
         
-        <div className="container-custom relative z-10">
+        <div className="container-custom relative z-10 max-w-9xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -340,8 +340,8 @@ export function Home() {
       </section>
 
       {/* WHAT WE CAN BUILD */}
-      <section className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -380,8 +380,8 @@ export function Home() {
       </section>
 
       {/* AI AUTOMATION WITH INTERACTIVE ENGINE SIMULATOR */}
-      <section className="py-20 md:py-32 bg-pryonx-dark-bg">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-dark-bg">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -406,8 +406,8 @@ export function Home() {
 
 
       {/* HOW WE WORK */}
-      <section className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -452,8 +452,8 @@ export function Home() {
       </section>
 
       {/* WHY PRYONX */}
-      <section className="py-20 md:py-32 bg-pryonx-dark-bg">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-dark-bg">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -577,8 +577,8 @@ export function Home() {
       </section>
 
       {/* TECHNOLOGY ECOSYSTEM */}
-      <section className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -671,10 +671,10 @@ export function Home() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-pryonx-surface to-pryonx-dark-bg relative overflow-hidden">
+      <section className="py-24 md:py-36 bg-gradient-to-br from-pryonx-surface to-pryonx-dark-bg relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-pryonx-red/10 to-transparent" />
         
-        <div className="container-custom relative z-10 text-center">
+        <div className="container-custom relative z-10 text-center max-w-9xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

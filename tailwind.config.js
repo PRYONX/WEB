@@ -6,6 +6,13 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        '2xl': '1536px',
+      },
+      maxWidth: {
+        '8xl': '90rem',
+        '9xl': '100rem',
+      },
       colors: {
         // PRYONX Brand Colors
         pryonx: {

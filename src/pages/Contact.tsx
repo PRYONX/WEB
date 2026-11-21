@@ -16,7 +16,7 @@ export function Contact() {
   };
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-x-hidden">
       {/* HERO */}
       <section className="relative pt-36 pb-24 md:pt-44 md:pb-36 bg-pryonx-dark-bg overflow-hidden">
         <ParticleBackground particleCount={45} interactive={true} />
@@ -51,8 +51,8 @@ export function Contact() {
       </section>
 
       {/* CONTACT INFO */}
-      <section className="py-20 md:py-32 bg-pryonx-surface">
-        <div className="container-custom">
+      <section className="py-24 md:py-36 bg-pryonx-surface">
+        <div className="container-custom max-w-9xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Start Your Project - Google Form */}
             <motion.div
